@@ -1,15 +1,19 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FiMail, FiLock, FiUser, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
 import { shade } from 'polished';
 import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import { Button, Input } from 'components';
 import logo from 'assets/logo.svg';
 import backgroundImg from 'assets/sign-up-background.png';
+import { getValidationErrors } from 'utils';
 
 const SignUp: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const handleSubmit = useCallback(async (data: object) => {
     try {
       const schema = Yup.object().shape({
@@ -23,8 +27,12 @@ const SignUp: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
+      formRef.current?.setErrors({});
     } catch (error) {
-      console.log(error);
+      const errors = getValidationErrors(error);
+
+      formRef.current?.setErrors(errors);
     }
   }, []);
 
@@ -34,7 +42,7 @@ const SignUp: React.FC = () => {
       <Content>
         <img src={logo} alt="GoBarber" />
 
-        <Form onSubmit={handleSubmit} action="">
+        <Form ref={formRef} onSubmit={handleSubmit} action="">
           <h1>Faça seu cadastro</h1>
 
           <Input icon={FiUser} name="name" type="text" placeholder="Nome" />
