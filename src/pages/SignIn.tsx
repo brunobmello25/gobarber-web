@@ -1,15 +1,55 @@
+import React from 'react';
+import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import logo from 'assets/logo.svg';
+import { Button, Input } from 'components';
 import styled from 'styled-components';
 import { shade } from 'polished';
+
 import backgroundImg from 'assets/sign-in-background.png';
 
-export const Container = styled.div`
+const SignIn: React.FC = () => {
+  return (
+    <Container>
+      <Content>
+        <img src={logo} alt="GoBarber" />
+
+        <form action="">
+          <h1>Faça seu logon</h1>
+
+          <Input icon={FiMail} name="email" type="text" placeholder="E-mail" />
+
+          <Input
+            icon={FiLock}
+            name="password"
+            type="password"
+            placeholder="Senha"
+          />
+
+          <Button type="submit">Entrar</Button>
+
+          <a href="forgot">Esqueci minha senha</a>
+        </form>
+
+        <a href="login">
+          <FiLogIn />
+          Criar conta
+        </a>
+      </Content>
+      <Background />
+    </Container>
+  );
+};
+
+export default SignIn;
+
+const Container = styled.div`
   height: 100vh;
 
   display: flex;
   align-items: stretch;
 `;
 
-export const Content = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -25,40 +65,6 @@ export const Content = styled.div`
 
     h1 {
       margin-bottom: 24px;
-    }
-
-    input {
-      background: #232129;
-      border-radius: 10;
-      border: 2px solid #232129;
-      padding: 16px;
-      width: 100%;
-      color: #f4ede8;
-
-      &::placeholder {
-        color: #666360;
-      }
-
-      & + input {
-        margin-top: 8px;
-      }
-    }
-
-    button {
-      background: #ff9000;
-      height: 56px;
-      border-radius: 10px;
-      border: 0;
-      padding: 0 16px;
-      color: #312e38;
-      width: 100%;
-      font-weight: 500;
-      margin-top: 16px;
-      transition: background-color 0.2s;
-
-      &:hover {
-        background: ${shade(0.2, '#ff9000')};
-      }
     }
 
     a {
@@ -94,7 +100,7 @@ export const Content = styled.div`
   }
 `;
 
-export const Background = styled.div`
+const Background = styled.div`
   flex: 1;
   background: url(${backgroundImg}) no-repeat center;
   background-size: cover;
