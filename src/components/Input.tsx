@@ -1,5 +1,11 @@
-import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React, {
+  InputHTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
+import styled, { css } from 'styled-components';
 import { IconBaseProps } from 'react-icons';
 import { useField } from '@unform/core';
 
@@ -8,9 +14,26 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ComponentType<IconBaseProps>;
 }
 
+interface ContainerProps {
+  isFocused: boolean;
+  isFilled: boolean;
+}
+
 const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    setIsFilled(!!inputRef.current?.value);
+  }, []);
 
   useEffect(() => {
     registerField({
@@ -21,24 +44,44 @@ const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
+    <Container isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
-      <input defaultValue={defaultValue} ref={inputRef} {...props} />
+      <input
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        defaultValue={defaultValue}
+        ref={inputRef}
+        {...props}
+      />
     </Container>
   );
 };
 
 export default Input;
 
-const Container = styled.div`
+const Container = styled.div<ContainerProps>`
   background: #232129;
   border-radius: 10px;
-  border: 2px solid #232129;
   padding: 16px;
   width: 100%;
-  color: #666360;
   display: flex;
   align-items: center;
+
+  border: 2px solid #232129;
+  color: #666360;
+
+  ${props =>
+    props.isFocused &&
+    css`
+      color: #ff9000;
+      border-color: #ff9000;
+    `}
+
+  ${props =>
+    props.isFilled &&
+    css`
+      color: #ff9000;
+    `}
 
   & + div {
     margin-top: 8px;
