@@ -7,7 +7,9 @@ import React, {
 } from 'react';
 import styled, { css } from 'styled-components';
 import { IconBaseProps } from 'react-icons';
+import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
+import Tooltip from './Tooltip';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -17,6 +19,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
+  isErrored: boolean;
 }
 
 const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
@@ -44,7 +47,7 @@ const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isFilled={isFilled} isFocused={isFocused}>
+    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
       <input
         onFocus={handleInputFocus}
@@ -54,7 +57,11 @@ const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
         {...props}
       />
 
-      {error}
+      {error && (
+        <Error title={error}>
+          <FiAlertCircle color="#c53030" size={20} />
+        </Error>
+      )}
     </Container>
   );
 };
@@ -71,6 +78,12 @@ const Container = styled.div<ContainerProps>`
 
   border: 2px solid #232129;
   color: #666360;
+
+  ${props =>
+    props.isErrored &&
+    css`
+      border-color: #c53030;
+    `}
 
   ${props =>
     props.isFocused &&
@@ -102,5 +115,23 @@ const Container = styled.div<ContainerProps>`
 
   svg {
     margin-right: 16px;
+  }
+`;
+
+const Error = styled(Tooltip)`
+  height: 20px;
+  margin-left: 16px;
+
+  svg {
+    margin: 0;
+  }
+
+  span {
+    background: #c53030;
+    color: #fff;
+
+    &::before {
+      border-color: #c53030 transparent;
+    }
   }
 `;
