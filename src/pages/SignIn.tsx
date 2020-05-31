@@ -10,7 +10,7 @@ import { Button, Input } from 'components';
 import logo from 'assets/logo.svg';
 import backgroundImg from 'assets/sign-in-background.png';
 import { getValidationErrors } from 'utils';
-import { AuthContext } from 'contexts/AuthContext';
+import { useAuth } from 'contexts/AuthContext';
 
 interface SignInFormData {
   email: string;
@@ -20,7 +20,7 @@ interface SignInFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
