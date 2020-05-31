@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { animated } from 'react-spring';
 
 import { ToastMessage, useToast } from 'hooks/toast';
 import {
@@ -12,6 +13,11 @@ import {
 interface ContainerProps {
   type?: 'success' | 'error' | 'info';
   hasDescription: boolean;
+}
+
+interface ToastProps {
+  data: ToastMessage;
+  style: object;
 }
 
 const toastTypeVariations = {
@@ -35,11 +41,7 @@ const icons = {
   success: <FiCheckCircle size={24} />,
 };
 
-interface ToastProps {
-  data: ToastMessage;
-}
-
-const Toast: React.FC<ToastProps> = ({ data }: ToastProps) => {
+const Toast: React.FC<ToastProps> = ({ data, style }: ToastProps) => {
   const { removeToast } = useToast();
 
   useEffect(() => {
@@ -51,7 +53,11 @@ const Toast: React.FC<ToastProps> = ({ data }: ToastProps) => {
   }, [data.id, removeToast]);
 
   return (
-    <Container type={data.type} hasDescription={!!data.description}>
+    <Container
+      type={data.type}
+      hasDescription={!!data.description}
+      style={style}
+    >
       {icons[data.type || 'info']}
 
       <div>
@@ -69,7 +75,7 @@ const Toast: React.FC<ToastProps> = ({ data }: ToastProps) => {
 
 export default Toast;
 
-const Container = styled.div<ContainerProps>`
+const Container = styled(animated.div)<ContainerProps>`
   width: 360px;
   position: relative;
   padding: 16px 30px 16px 16px;
