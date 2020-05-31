@@ -4,7 +4,7 @@ import { uuid } from 'uuidv4';
 
 interface IAuthContext {
   addToast(message: Omit<ToastMessage, 'id'>): void;
-  removeToast(): void;
+  removeToast(id: string): void;
 }
 
 export interface ToastMessage {
@@ -27,8 +27,8 @@ const ToastProvider: React.FC = ({ children }) => {
     setMessages(state => [...state, toast]);
   }, []);
 
-  const removeToast = useCallback(() => {
-    console.log('Remove Toast');
+  const removeToast = useCallback((id: string) => {
+    setMessages(state => state.filter(m => m.id !== id));
   }, []);
 
   return (

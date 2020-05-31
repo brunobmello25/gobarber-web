@@ -1,53 +1,17 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
+import styled from 'styled-components';
 import { ToastMessage } from 'hooks/toast';
+import { Toast } from 'components';
 
 interface ToastContainerProps {
   messages: ToastMessage[];
 }
 
-interface ToastProps {
-  type?: 'success' | 'error' | 'info';
-  hasDescription: boolean;
-}
-
-const toastTypeVariations = {
-  info: css`
-    background: #ebf8ff;
-    color: #3172b7;
-  `,
-  error: css`
-    background: #fddede;
-    color: #c53030;
-  `,
-  success: css`
-    background: #e6fffa;
-    color: #2e656a;
-  `,
-};
-
 const ToastsContainer: React.FC<ToastContainerProps> = ({ messages }) => {
   return (
     <Container>
       {messages.map(message => (
-        <Toast
-          key={message.id}
-          type={message.type}
-          hasDescription={!!message.description}
-        >
-          <FiAlertCircle size={20} />
-
-          <div>
-            <strong>{message.title}</strong>
-
-            {message.description && <p>{message.description}</p>}
-          </div>
-
-          <button type="button">
-            <FiXCircle size={18} />
-          </button>
-        </Toast>
+        <Toast key={message.id} data={message} />
       ))}
     </Container>
   );
@@ -61,55 +25,4 @@ const Container = styled.div`
   top: 0;
   padding: 30px;
   overflow: hidden;
-`;
-
-const Toast = styled.div<ToastProps>`
-  width: 360px;
-  position: relative;
-  padding: 16px 30px 16px 16px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-
-  & + div {
-    margin-top: 8px;
-  }
-
-  ${props => toastTypeVariations[props.type || 'info']}
-
-  > svg {
-    margin: 4px 12px 0 0;
-  }
-
-  div {
-    flex: 1;
-
-    p {
-      margin-top: 4px;
-      font-size: 14px;
-      opacity: 0.8;
-      line-height: 20px;
-    }
-  }
-
-  button {
-    position: absolute;
-    right: 16px;
-    top: 19px;
-    opacity: 0.6;
-    border: 0;
-    background: transparent;
-    color: inherit;
-  }
-
-  ${props =>
-    !props.hasDescription &&
-    css`
-      align-items: center;
-
-      svg {
-        margin-top: 0;
-      }
-    `}
 `;
