@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useContext } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import styled from 'styled-components';
 import { shade } from 'polished';
@@ -10,7 +10,7 @@ import { Button, Input } from 'components';
 import logo from 'assets/logo.svg';
 import backgroundImg from 'assets/sign-in-background.png';
 import { getValidationErrors } from 'utils';
-import { useAuth } from 'contexts/AuthContext';
+import { useAuth } from 'hooks/auth';
 
 interface SignInFormData {
   email: string;
