@@ -12,7 +12,7 @@ import {
 
 interface ContainerProps {
   type?: 'success' | 'error' | 'info';
-  hasDescription: boolean;
+  hasdescription: number;
 }
 
 interface ToastProps {
@@ -55,7 +55,7 @@ const Toast: React.FC<ToastProps> = ({ data, style }: ToastProps) => {
   return (
     <Container
       type={data.type}
-      hasDescription={!!data.description}
+      hasdescription={Number(!!data.description)}
       style={style}
     >
       {icons[data.type || 'info']}
@@ -116,7 +116,7 @@ const Container = styled(animated.div)<ContainerProps>`
   }
 
   ${props =>
-    !props.hasDescription &&
+    !props.hasdescription &&
     css`
       align-items: center;
 

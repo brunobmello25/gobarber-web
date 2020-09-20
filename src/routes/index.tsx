@@ -1,6 +1,12 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import { SignIn, SignUp, Dashboard } from 'pages';
+import {
+  SignIn,
+  SignUp,
+  Dashboard,
+  ForgotPassword,
+  ResetPassword,
+} from 'pages';
 import Route from './Route';
 
 const Routes: React.FC = () => {
@@ -8,6 +14,8 @@ const Routes: React.FC = () => {
     <Switch>
       <Route exact path="/" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/forgot-password" component={ForgotPassword} />
+      <Route exact path="/reset-password" component={ResetPassword} />
 
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
     </Switch>
