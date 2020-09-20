@@ -6,14 +6,20 @@ interface SignInCredentials {
   password: string;
 }
 
+interface IUser {
+  id: string;
+  name: string;
+  avatar_url: string;
+}
+
 interface IAuthContext {
-  user: object;
+  user: IUser;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
 
 interface AuthState {
-  user: object;
+  user: IUser;
   token: string;
 }
 
