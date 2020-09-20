@@ -6,6 +6,7 @@ import {
   Dashboard,
   ForgotPassword,
   ResetPassword,
+  Profile,
 } from 'pages';
 import Route from './Route';
 
@@ -16,8 +17,8 @@ const Routes: React.FC = () => {
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/forgot-password" component={ForgotPassword} />
       <Route exact path="/reset-password" component={ResetPassword} />
-
       <Route exact path="/dashboard" component={Dashboard} isPrivate />
+      <Route exact path="/profile" component={Profile} isPrivate />
     </Switch>
   );
 };

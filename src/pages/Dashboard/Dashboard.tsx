@@ -8,6 +8,7 @@ import logo from 'assets/logo.svg';
 import { FiClock, FiPower } from 'react-icons/fi';
 import { useAuth } from 'hooks/auth';
 import { api } from 'services';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Appointment,
@@ -32,7 +33,7 @@ interface IAppointment {
   formattedHour: string;
   user: {
     name: string;
-    avatar_url: string;
+    avatarUrl: string;
   };
 }
 
@@ -138,11 +139,13 @@ const Dashboard: React.FC = () => {
           <img src={logo} alt="GoBarber" />
 
           <Profile>
-            <img src={user.avatar_url} alt="" />
+            <img src={user.avatarUrl} alt="" />
 
             <div>
               <span>Bem-vindo,</span>
-              <strong>{user.name}</strong>
+              <Link to="/profile">
+                <strong>{user.name}</strong>
+              </Link>
             </div>
           </Profile>
 
@@ -168,7 +171,7 @@ const Dashboard: React.FC = () => {
 
               <div>
                 <img
-                  src={nextAppointment.user.avatar_url}
+                  src={nextAppointment.user.avatarUrl}
                   alt={nextAppointment.user.name}
                 />
 
@@ -197,7 +200,7 @@ const Dashboard: React.FC = () => {
 
                 <div>
                   <img
-                    src={appointment.user.avatar_url}
+                    src={appointment.user.avatarUrl}
                     alt={appointment.user.name}
                   />
 
@@ -223,7 +226,7 @@ const Dashboard: React.FC = () => {
 
                 <div>
                   <img
-                    src={appointment.user.avatar_url}
+                    src={appointment.user.avatarUrl}
                     alt={appointment.user.name}
                   />
 

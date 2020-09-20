@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
   useCallback,
+  CSSProperties,
 } from 'react';
 import styled, { css } from 'styled-components';
 import { IconBaseProps } from 'react-icons';
@@ -14,6 +15,7 @@ import Tooltip from './Tooltip';
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
+  containerStyle?: CSSProperties;
 }
 
 interface ContainerProps {
@@ -22,7 +24,12 @@ interface ContainerProps {
   isErrored: boolean;
 }
 
-const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
+const Input: React.FC<Props> = ({
+  name,
+  icon: Icon,
+  containerStyle = {},
+  ...props
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
   const [isFocused, setIsFocused] = useState(false);
@@ -47,7 +54,12 @@ const Input: React.FC<Props> = ({ name, icon: Icon, ...props }) => {
   }, [fieldName, registerField]);
 
   return (
-    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
+    <Container
+      style={containerStyle}
+      isErrored={!!error}
+      isFilled={isFilled}
+      isFocused={isFocused}
+    >
       {Icon && <Icon size={20} />}
       <input
         onFocus={handleInputFocus}
